@@ -4,6 +4,7 @@ import '../../controllers/book_controller.dart';
 import '../../widgets/home/CarouselSlider.dart';
 import '../../widgets/home/book_list.dart';
 import '../../widgets/home/custom_bottom_navbar.dart';
+import '../../widgets/home/shimmer_loading.dart';
 import '../bookmarks/bookmarksScreen.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     final Widget bodyContent = _selectedIndex == 0
         ? Obx(() {
             if (_bookController.isLoading.value) {
-              return const Center(child: CircularProgressIndicator());
+              return const ShimmerLoading();
             } else {
               return SingleChildScrollView(
                 child: Column(
