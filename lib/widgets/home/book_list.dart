@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'book_item.dart';
+import '../../models/book_model.dart';
 
 class BookList extends StatelessWidget {
-  final List<Map<String, String>> books;
+  final List<Book> books;
 
   const BookList({super.key, required this.books});
 
@@ -15,12 +16,12 @@ class BookList extends StatelessWidget {
       itemBuilder: (context, index) {
         final book = books[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.all(15.0),
           child: BookItem(
-            imageUrl: book['imageUrl']!,
-            author: book['author']!,
-            title: book['title']!,
-            subtitle: book['subtitle'],
+            imageUrl: book.image,
+            author: book.authors,
+            title: book.title,
+            subtitle: book.subtitle,
           ),
         );
       },

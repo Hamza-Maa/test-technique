@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../controllers/book_controller.dart';
 import '../../widgets/home/CarouselSlider.dart';
 import '../../widgets/home/book_list.dart';
 import '../../widgets/home/custom_bottom_navbar.dart';
@@ -12,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final BookController _bookController = Get.put(BookController());
   int _selectedIndex = 0;
 
   void _onNavItemTapped(int index) {
@@ -23,53 +26,42 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final Widget bodyContent = _selectedIndex == 0
-        ? SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Highlights',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+        ? Obx(() {
+            if (_bookController.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Highlights',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                CarouselWidget(),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Books',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                    CarouselWidget(books: _bookController.books),
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Books',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
+                    BookList(books: _bookController.books),
+                  ],
                 ),
-                BookList(books: [
-                  {
-                    'imageUrl': 'assets/img/logov1.png',
-                    'author': 'Panagiotis',
-                    'title': 'The Economics of Big Science',
-                    'subtitle': 'Essays by Leading Scientists and Policymakers',
-                  },
-                  {
-                    'imageUrl': 'assets/img/logov1.png',
-                    'author': 'Noreen Brown',
-                    'title': 'Beginning Excel 2019',
-                  },
-                  {
-                    'imageUrl': 'assets/img/logov1.png',
-                    'author': 'Noreen Brown',
-                    'title': 'Beginning Excel 2019',
-                  },
-                ]),
-              ],
-            ),
-          )
-        : BookmarksScreen();
+              );
+            }
+          })
+        : const BookmarksScreen();
 
     return Scaffold(
       appBar: AppBar(

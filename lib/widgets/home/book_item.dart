@@ -1,3 +1,4 @@
+// lib/widgets/home/book_item.dart
 import 'package:flutter/material.dart';
 
 class BookItem extends StatefulWidget {
@@ -45,19 +46,17 @@ class _BookItemState extends State<BookItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Book Image
-              Image.asset(
+              Image.network(
                 widget.imageUrl,
                 width: 80,
                 height: 120,
                 fit: BoxFit.cover,
               ),
               const SizedBox(width: 16),
-              // Book Details
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Author
                     Text(
                       widget.author,
                       style: const TextStyle(
@@ -75,7 +74,6 @@ class _BookItemState extends State<BookItem> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    // Subtitle (if available)
                     if (widget.subtitle != null)
                       Text(
                         widget.subtitle!,

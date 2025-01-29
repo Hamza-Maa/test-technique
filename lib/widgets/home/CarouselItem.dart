@@ -25,7 +25,7 @@ class _CarouselItemWidgetState extends State<CarouselItemWidget> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         image: DecorationImage(
-          image: AssetImage(widget.item['imageUrl']!),
+          image: NetworkImage(widget.item['imageUrl']!),
           fit: BoxFit.cover,
         ),
       ),
@@ -73,7 +73,6 @@ class _CarouselItemWidgetState extends State<CarouselItemWidget> {
                 ),
               ),
             ),
-            // Title and Subtitle (Bottom Left)
             Positioned(
               bottom: 0,
               left: 0,

@@ -1,30 +1,13 @@
-import 'package:carousel_slider/carousel_slider.dart';
+// lib/widgets/home/CarouselSlider.dart
 import 'package:flutter/material.dart';
-
+import 'package:carousel_slider/carousel_slider.dart';
+import '../../models/book_model.dart';
 import 'CarouselItem.dart';
 
 class CarouselWidget extends StatelessWidget {
-  final List<Map<String, String>> carouselItems = [
-    {
-      'imageUrl': 'assets/img/logov1.png',
-      'author': 'Douglas Adams',
-      'title': 'Beginning Excel 2019',
-      'subtitle': 'Learn Excel from Scratch',
-    },
-    {
-      'imageUrl': 'assets/img/logov1.png',
-      'author': 'Panagiotis',
-      'title': 'The Economics of Big Science',
-      'subtitle': 'Essays by Leading Scientists and Policymakers',
-    },
-    {
-      'imageUrl': 'assets/img/logov1.png',
-      'author': 'Robert W. Maloy',
-      'title': 'Building Democracy for All',
-    },
-  ];
+  final List<Book> books;
 
-  CarouselWidget({super.key});
+  const CarouselWidget({super.key, required this.books});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +17,15 @@ class CarouselWidget extends StatelessWidget {
         autoPlay: true,
         enlargeCenterPage: true,
       ),
-      items: carouselItems.map((item) {
-        return CarouselItemWidget(item: item);
+      items: books.map((book) {
+        return CarouselItemWidget(
+          item: {
+            'imageUrl': book.image,
+            'author': book.authors,
+            'title': book.title,
+            'subtitle': book.subtitle,
+          },
+        );
       }).toList(),
     );
   }
