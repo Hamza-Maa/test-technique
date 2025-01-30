@@ -5,6 +5,7 @@ import '../models/book_model.dart';
 
 class BookmarksController extends GetxController {
   final RxList<Book> favoriteBooks = <Book>[].obs;
+  var isAscendingOrder = true.obs;
 
   @override
   void onInit() {
@@ -49,5 +50,16 @@ class BookmarksController extends GetxController {
 
   bool isFavorite(Book book) {
     return favoriteBooks.contains(book);
+  }
+
+  void sortFavoriteBooksByTitle() {
+    final sortedBooks = List<Book>.from(favoriteBooks);
+    if (isAscendingOrder.value) {
+      sortedBooks.sort((a, b) => a.title.compareTo(b.title));
+    } else {
+      sortedBooks.sort((a, b) => b.title.compareTo(a.title));
+    }
+    favoriteBooks.assignAll(sortedBooks);
+    isAscendingOrder.toggle();
   }
 }

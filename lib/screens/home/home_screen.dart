@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    BookList(books: _bookController.books),
+                    BookList(books: _bookController.filteredBooks)
                   ],
                 ),
               );
@@ -80,9 +80,14 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list, color: Colors.green, size: 28),
             onPressed: () {
-              // Handle filter icon press
+              if (_selectedIndex == 0) {
+                _bookController.sortBooksByTitle();
+              } else if (_selectedIndex == 1) {
+                _bookmarksController
+                    .sortFavoriteBooksByTitle();
+              }
             },
           ),
         ],

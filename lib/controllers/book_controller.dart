@@ -8,7 +8,9 @@ import '../widgets/base/custom_snackbar.dart';
 class BookController extends GetxController {
   final BookService _bookService = BookService();
   var books = <Book>[].obs;
+  var filteredBooks = <Book>[].obs;
   var isLoading = true.obs;
+  var isAscendingOrder = true.obs;
 
   @override
   void onInit() {
@@ -26,6 +28,7 @@ class BookController extends GetxController {
       books.assignAll(
         cachedBooksList.map((bookJson) => Book.fromJson(bookJson)).toList(),
       );
+      filteredBooks.assignAll(books);
     }
   }
 
@@ -41,11 +44,23 @@ class BookController extends GetxController {
       isLoading(true);
       final response = await _bookService.fetchBooks();
       books.assignAll(response.books);
+      filteredBooks.assignAll(books);
       await _cacheBooks(response.books);
     } catch (e) {
       showErrorSnackbar("Connection error, Please verify your internet");
     } finally {
       isLoading(false);
     }
+  }
+
+  void sortBooksByTitle() {
+    final sortedBooks = List<Book>.from(books);
+    if (isAscendingOrder.value) {
+      sortedBooks.sort((a, b) => a.title.compareTo(b.title));
+    } else {
+      sortedBooks.sort((a, b) => b.title.compareTo(a.title));
+    }
+    filteredBooks.assignAll(sortedBooks);
+    isAscendingOrder.toggle();
   }
 }

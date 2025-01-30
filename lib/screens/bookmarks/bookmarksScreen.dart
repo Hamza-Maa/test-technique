@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../controllers/bookmarks_controller.dart';
-import '../../widgets/home/book_list.dart';
+import '../../widgets/bookDetails/bookMarks_book_list.dart';
 
 class BookmarksScreen extends StatelessWidget {
   const BookmarksScreen({super.key});
@@ -49,7 +49,7 @@ class BookmarksScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                BookList(books: _bookmarksController.favoriteBooks),
+                BookMarksList(books: _bookmarksController.favoriteBooks),
               ],
             ),
           );
