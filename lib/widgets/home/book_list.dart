@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'book_item.dart';
 import '../../models/book_model.dart';
-import '../../controllers/book_controller.dart';
+import '../home/book_item.dart';
 
 class BookList extends StatelessWidget {
   final List<Book> books;
@@ -11,15 +10,13 @@ class BookList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BookController _bookController = Get.find();
-
     return Obx(() {
       return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: _bookController.filteredBooks.length,
+        itemCount: books.length,
         itemBuilder: (context, index) {
-          final book = _bookController.filteredBooks[index];
+          final book = books[index];
           return Padding(
             padding: const EdgeInsets.all(15.0),
             child: BookItem(book: book),

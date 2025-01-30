@@ -6,7 +6,8 @@ import '../../widgets/home/CarouselSlider.dart';
 import '../../widgets/home/book_list.dart';
 import '../../widgets/home/custom_bottom_navbar.dart';
 import '../../widgets/home/shimmer_loading.dart';
-import '../bookmarks/bookmarksScreen.dart';
+import '../bookmarks/bookmarks_screen.dart';
+import '../search_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   final BookController _bookController = Get.put(BookController());
   final BookmarksController _bookmarksController =
       Get.put(BookmarksController());
+
   int _selectedIndex = 0;
 
   void _onNavItemTapped(int index) {
@@ -49,17 +51,29 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     CarouselWidget(books: _bookController.books),
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                        'Books',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Books',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            icon: const Icon(Icons.search,
+                                color: Colors.green, size: 28),
+                            onPressed: () {
+                              Get.to(() => const SearchScreen());
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    BookList(books: _bookController.filteredBooks)
+                    BookList(books: _bookController.filteredBooks),
                   ],
                 ),
               );
@@ -85,8 +99,7 @@ class _HomePageState extends State<HomePage> {
               if (_selectedIndex == 0) {
                 _bookController.sortBooksByTitle();
               } else if (_selectedIndex == 1) {
-                _bookmarksController
-                    .sortFavoriteBooksByTitle();
+                _bookmarksController.sortFavoriteBooksByTitle();
               }
             },
           ),
