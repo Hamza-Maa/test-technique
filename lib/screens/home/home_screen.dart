@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/book_controller.dart';
+import '../../controllers/bookmarks_controller.dart';
 import '../../widgets/home/CarouselSlider.dart';
 import '../../widgets/home/book_list.dart';
 import '../../widgets/home/custom_bottom_navbar.dart';
@@ -16,6 +17,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final BookController _bookController = Get.put(BookController());
+  final BookmarksController _bookmarksController =
+      Get.put(BookmarksController());
   int _selectedIndex = 0;
 
   void _onNavItemTapped(int index) {

@@ -1,4 +1,3 @@
-// lib/widgets/home/CarouselSlider.dart
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../models/book_model.dart';
@@ -18,14 +17,7 @@ class CarouselWidget extends StatelessWidget {
         enlargeCenterPage: true,
       ),
       items: books.map((book) {
-        return CarouselItemWidget(
-          item: {
-            'imageUrl': book.image,
-            'author': book.authors,
-            'title': book.title,
-            'subtitle': book.subtitle,
-          },
-        );
+        return CarouselItemWidget(book: book);
       }).toList(),
     );
   }

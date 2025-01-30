@@ -1,43 +1,20 @@
-// lib/widgets/home/book_item.dart
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../controllers/bookmarks_controller.dart';
+import '../../models/book_model.dart';
 
-class BookItem extends StatefulWidget {
-  final String imageUrl;
-  final String author;
-  final String title;
-  final String? subtitle;
-  final bool isFavorite;
+class BookItem extends StatelessWidget {
+  final Book book;
 
   const BookItem({
     super.key,
-    required this.imageUrl,
-    required this.author,
-    required this.title,
-    this.subtitle,
-    this.isFavorite = false,
+    required this.book,
   });
 
   @override
-  _BookItemState createState() => _BookItemState();
-}
-
-class _BookItemState extends State<BookItem> {
-  bool _isFavorite = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _isFavorite = widget.isFavorite;
-  }
-
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorite = !_isFavorite;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final BookmarksController _bookmarksController = Get.find();
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -47,7 +24,7 @@ class _BookItemState extends State<BookItem> {
             children: [
               // Book Image
               Image.network(
-                widget.imageUrl,
+                book.image,
                 width: 80,
                 height: 120,
                 fit: BoxFit.cover,
@@ -58,7 +35,7 @@ class _BookItemState extends State<BookItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.author,
+                      book.authors,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
@@ -67,43 +44,51 @@ class _BookItemState extends State<BookItem> {
                     const SizedBox(height: 4),
                     // Title
                     Text(
-                      widget.title,
+                      book.title,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    if (widget.subtitle != null)
-                      Text(
-                        widget.subtitle!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
+                    Text(
+                      book.subtitle,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
                       ),
+                    ),
                   ],
                 ),
               ),
               // Favorite Icon
-              GestureDetector(
-                onTap: _toggleFavorite,
-                child: Container(
-                  width: 24,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.black,
+              Obx(() {
+                final isFavorite = _bookmarksController.isFavorite(book);
+                return GestureDetector(
+                  onTap: () {
+                    if (isFavorite) {
+                      _bookmarksController.removeFromFavorites(book);
+                    } else {
+                      _bookmarksController.addToFavorites(book);
+                    }
+                  },
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                    ),
+                    child: Icon(
+                      isFavorite
+                          ? Icons.bookmark_outlined
+                          : Icons.bookmark_outline,
+                      color: Colors.white,
+                      size: 16,
+                    ),
                   ),
-                  child: Icon(
-                    _isFavorite
-                        ? Icons.bookmark_outlined
-                        : Icons.bookmark_outline,
-                    color: _isFavorite ? Colors.white : Colors.white,
-                    size: 16,
-                  ),
-                ),
-              ),
+                );
+              }),
             ],
           ),
           const SizedBox(height: 8),

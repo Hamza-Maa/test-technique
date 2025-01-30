@@ -15,16 +15,30 @@ class Book {
     required this.url,
   });
 
-  factory Book.fromJson(Map<String, dynamic> json) {
-    return Book(
-      id: json['id'],
-      title: json['title'],
-      subtitle: json['subtitle'],
-      authors: json['authors'],
-      image: json['image'],
-      url: json['url'],
-    );
-  }
+  factory Book.fromJson(Map<String, dynamic> json) => Book(
+        id: json['id'],
+        title: json['title'],
+        subtitle: json['subtitle'] ?? '',
+        authors: json['authors'],
+        image: json['image'],
+        url: json['url'],
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'subtitle': subtitle,
+        'authors': authors,
+        'image': image,
+        'url': url,
+      };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Book && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 class BookResponse {
@@ -38,14 +52,12 @@ class BookResponse {
     required this.books,
   });
 
-  factory BookResponse.fromJson(Map<String, dynamic> json) {
-    var booksList = json['books'] as List;
-    List<Book> books = booksList.map((book) => Book.fromJson(book)).toList();
-
-    return BookResponse(
-      status: json['status'],
-      total: json['total'],
-      books: books,
-    );
-  }
+  factory BookResponse.fromJson(Map<String, dynamic> json) => BookResponse(
+        status: json['status'],
+        total: json['total'] is String
+            ? int.tryParse(json['total']) ?? 0
+            : json['total'],
+        books:
+            (json['books'] as List).map((book) => Book.fromJson(book)).toList(),
+      );
 }

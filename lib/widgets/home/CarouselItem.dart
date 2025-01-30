@@ -1,31 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../controllers/bookmarks_controller.dart';
+import '../../models/book_model.dart';
 
-class CarouselItemWidget extends StatefulWidget {
-  final Map<String, String> item;
+class CarouselItemWidget extends StatelessWidget {
+  final Book book;
 
-  const CarouselItemWidget({super.key, required this.item});
-
-  @override
-  _CarouselItemWidgetState createState() => _CarouselItemWidgetState();
-}
-
-class _CarouselItemWidgetState extends State<CarouselItemWidget> {
-  bool _isFavorite = false;
-
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorite = !_isFavorite;
-    });
-  }
+  const CarouselItemWidget({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {
+    final BookmarksController _bookmarksController = Get.find();
+
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         image: DecorationImage(
-          image: NetworkImage(widget.item['imageUrl']!),
+          image: NetworkImage(book.image),
           fit: BoxFit.cover,
         ),
       ),
@@ -43,7 +35,7 @@ class _CarouselItemWidgetState extends State<CarouselItemWidget> {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  widget.item['author'] ?? '',
+                  book.authors,
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.white,
@@ -52,26 +44,34 @@ class _CarouselItemWidgetState extends State<CarouselItemWidget> {
                 ),
               ),
             ),
-            // Favorite Icon (Top Right)
             Positioned(
               top: 0,
               right: 0,
-              child: GestureDetector(
-                onTap: _toggleFavorite,
-                child: Container(
-                  width: 28,
-                  height: 28,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.black54,
+              child: Obx(() {
+                final isFavorite = _bookmarksController.isFavorite(book);
+                return GestureDetector(
+                  onTap: () {
+                    if (isFavorite) {
+                      _bookmarksController.removeFromFavorites(book);
+                    } else {
+                      _bookmarksController.addToFavorites(book);
+                    }
+                  },
+                  child: Container(
+                    width: 28,
+                    height: 28,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black54,
+                    ),
+                    child: Icon(
+                      isFavorite ? Icons.bookmark : Icons.bookmark_border,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
-                  child: Icon(
-                    _isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                ),
-              ),
+                );
+              }),
             ),
             Positioned(
               bottom: 0,
@@ -80,21 +80,20 @@ class _CarouselItemWidgetState extends State<CarouselItemWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.item['title']!,
+                    book.title,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
-                  if (widget.item['subtitle'] != null)
-                    Text(
-                      widget.item['subtitle']!,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white70,
-                      ),
+                  Text(
+                    book.subtitle,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white70,
                     ),
+                  ),
                 ],
               ),
             ),

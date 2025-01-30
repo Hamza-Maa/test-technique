@@ -17,12 +17,7 @@ class BookList extends StatelessWidget {
         final book = books[index];
         return Padding(
           padding: const EdgeInsets.all(15.0),
-          child: BookItem(
-            imageUrl: book.image,
-            author: book.authors,
-            title: book.title,
-            subtitle: book.subtitle,
-          ),
+          child: BookItem(book: book),
         );
       },
     );
