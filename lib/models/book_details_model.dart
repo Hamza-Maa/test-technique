@@ -25,6 +25,22 @@ class BookDetails {
     required this.download,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'subtitle': subtitle,
+      'description': description,
+      'authors': authors,
+      'publisher': publisher,
+      'pages': pages,
+      'year': year,
+      'image': image,
+      'url': url,
+      'download': download,
+    };
+  }
+
   factory BookDetails.fromJson(Map<String, dynamic> json) {
     return BookDetails(
       id: json['id'],

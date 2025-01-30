@@ -5,7 +5,10 @@ import '../../controllers/book_details_controller.dart';
 import '../../controllers/bookmarks_controller.dart';
 import '../../models/book_model.dart';
 import '../../widgets/base/custom_button.dart';
+import '../../widgets/base/custom_snackbar.dart';
 import '../../widgets/bookDetails/bookDetails_shimmer_loading.dart';
+import '../../widgets/bookDetails/book_details_error.dart';
+import 'package:http/http.dart' as http;
 
 class BookDetailsScreen extends StatelessWidget {
   final String bookId;
@@ -25,7 +28,11 @@ class BookDetailsScreen extends StatelessWidget {
         if (_bookDetailsController.isLoading.value) {
           return const BookDeatilsShimmerLoading();
         } else if (_bookDetailsController.bookDetails.value == null) {
-          return const Center(child: Text('Failed to load book details.'));
+          return BookDetailsErrorWidget(
+            onRetry: () {
+              _bookDetailsController.fetchBookDetails(bookId);
+            },
+          );
         } else {
           final book = _bookDetailsController.bookDetails.value!;
 
@@ -50,6 +57,15 @@ class BookDetailsScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 300,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(
+                            Icons.broken_image,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
                     ),
                     Positioned(
                       top: 16,
@@ -79,11 +95,16 @@ class BookDetailsScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      book.authors,
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontSize: 16,
+                    Expanded(
+                      child: Text(
+                        book.authors,
+                        style: const TextStyle(
+                          color: Colors.green,
+                          fontSize: 16,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        softWrap: true,
                       ),
                     ),
                     Obx(() {
@@ -146,10 +167,20 @@ class BookDetailsScreen extends StatelessWidget {
                 StyledButton(
                   onPressed: () async {
                     final downloadUrl = book.download;
-                    if (await canLaunch(downloadUrl)) {
-                      await launch(downloadUrl);
-                    } else {
-                      Get.snackbar('Error', 'Could not launch $downloadUrl');
+                    try {
+                      final response = await http.head(Uri.parse(downloadUrl));
+
+                      if (response.statusCode == 200) {
+                        if (await canLaunch(downloadUrl)) {
+                          await launch(downloadUrl);
+                        } else {
+                          showErrorSnackbar("Unable to open the browser.");
+                        }
+                      } else {
+                        showErrorSnackbar("Download link is not available.");
+                      }
+                    } catch (e) {
+                      showErrorSnackbar("Failed to check the download link.");
                     }
                   },
                   text: 'Download',

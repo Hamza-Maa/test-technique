@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/book_model.dart';
 import '../services/book_service.dart';
+import '../widgets/base/custom_snackbar.dart';
 
 class BookController extends GetxController {
   final BookService _bookService = BookService();
@@ -12,12 +12,11 @@ class BookController extends GetxController {
 
   @override
   void onInit() {
-    loadCachedBooks(); // Load cached books first
-    fetchBooks(); // Fetch fresh data
+    loadCachedBooks();
+    fetchBooks();
     super.onInit();
   }
 
-  // Load cached books from SharedPreferences
   Future<void> loadCachedBooks() async {
     final prefs = await SharedPreferences.getInstance();
     final String? cachedBooksJson = prefs.getString('cachedBooks');
@@ -30,22 +29,21 @@ class BookController extends GetxController {
     }
   }
 
-  // Save books to SharedPreferences
   Future<void> _cacheBooks(List<Book> books) async {
     final prefs = await SharedPreferences.getInstance();
-    final String cachedBooksJson = jsonEncode(books.map((book) => book.toJson()).toList());
+    final String cachedBooksJson =
+        jsonEncode(books.map((book) => book.toJson()).toList());
     await prefs.setString('cachedBooks', cachedBooksJson);
   }
 
-  // Fetch books from the API and cache them
   Future<void> fetchBooks() async {
     try {
       isLoading(true);
       final response = await _bookService.fetchBooks();
       books.assignAll(response.books);
-      await _cacheBooks(response.books); // Cache the fetched books
+      await _cacheBooks(response.books);
     } catch (e) {
-      print('Error fetching books: $e');
+      showErrorSnackbar("Connection error, Please verify your internet");
     } finally {
       isLoading(false);
     }

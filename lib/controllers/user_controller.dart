@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
+import '../widgets/base/custom_snackbar.dart';
 
 class UserController extends GetxController {
   var user = User(id: '', name: '', email: '').obs;
@@ -36,7 +37,6 @@ class UserController extends GetxController {
     }
   }
 
-  // Login method
   Future<void> login(String email, String password) async {
     try {
       isLoading(true);
@@ -57,11 +57,11 @@ class UserController extends GetxController {
       user.value = loggedInUser;
       isLoading(false);
 
-      Get.snackbar('Success', 'Logged in successfully!');
+      showSuccessSnackbar("Logged in successfully!");
       Get.offNamed('/home');
     } catch (e) {
       isLoading(false);
-      Get.snackbar('Error', 'Failed to login: $e');
+      showErrorSnackbar("Failed to login, Please try again");
     }
   }
 
