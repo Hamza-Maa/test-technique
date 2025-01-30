@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/book_controller.dart';
 import '../../controllers/bookmarks_controller.dart';
+import '../../utils/colors.dart';
 import '../../widgets/home/CarouselSlider.dart';
 import '../../widgets/home/book_list.dart';
 import '../../widgets/home/custom_bottom_navbar.dart';
 import '../../widgets/home/shimmer_loading.dart';
-import '../bookmarks/bookmarks_screen.dart';
-import '../search_screen.dart';
+import '../bookmarks_screen.dart';
+import 'search_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,6 +30,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> _refreshData() async {
+    await _bookController.fetchBooks();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Widget bodyContent = _selectedIndex == 0
@@ -36,45 +41,48 @@ class _HomePageState extends State<HomePage> {
             if (_bookController.isLoading.value) {
               return const ShimmerLoading();
             } else {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                        'Highlights',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+              return RefreshIndicator(
+                onRefresh: _refreshData,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Highlights',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    CarouselWidget(books: _bookController.books),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          const Text(
-                            'Books',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
+                      CarouselWidget(books: _bookController.books),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [
+                            const Text(
+                              'Books',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            icon: const Icon(Icons.search,
-                                color: Colors.green, size: 28),
-                            onPressed: () {
-                              Get.to(() => const SearchScreen());
-                            },
-                          ),
-                        ],
+                            const Spacer(),
+                            IconButton(
+                              icon: const Icon(Icons.search,
+                                  color: AppColors.primaryColor, size: 28),
+                              onPressed: () {
+                                Get.to(() => const SearchScreen());
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    BookList(books: _bookController.filteredBooks),
-                  ],
+                      BookList(books: _bookController.filteredBooks),
+                    ],
+                  ),
                 ),
               );
             }
@@ -82,7 +90,9 @@ class _HomePageState extends State<HomePage> {
         : const BookmarksScreen();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Row(
           children: [
             Image.asset(

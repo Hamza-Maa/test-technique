@@ -41,24 +41,30 @@ class UserController extends GetxController {
     try {
       isLoading(true);
       await Future.delayed(const Duration(seconds: 3));
-      final token = _generateRandomToken();
-      final loggedInUser = User(
-        id: '1',
-        name: 'User',
-        email: email,
-        token: token,
-      );
 
-      await _prefs.setString('id', loggedInUser.id);
-      await _prefs.setString('name', loggedInUser.name);
-      await _prefs.setString('email', loggedInUser.email);
-      await _prefs.setString('token', loggedInUser.token!);
+      if (email == 'test@gmail.com' && password == 'password') {
+        final token = _generateRandomToken();
+        final loggedInUser = User(
+          id: '1',
+          name: 'User',
+          email: email,
+          token: token,
+        );
 
-      user.value = loggedInUser;
-      isLoading(false);
+        await _prefs.setString('id', loggedInUser.id);
+        await _prefs.setString('name', loggedInUser.name);
+        await _prefs.setString('email', loggedInUser.email);
+        await _prefs.setString('token', loggedInUser.token!);
 
-      showSuccessSnackbar("Logged in successfully!");
-      Get.offNamed('/home');
+        user.value = loggedInUser;
+        isLoading(false);
+
+        showSuccessSnackbar("Logged in successfully!");
+        Get.offNamed('/home');
+      } else {
+        isLoading(false);
+        showErrorSnackbar("Invalid email or password. Please try again.");
+      }
     } catch (e) {
       isLoading(false);
       showErrorSnackbar("Failed to login, Please try again");

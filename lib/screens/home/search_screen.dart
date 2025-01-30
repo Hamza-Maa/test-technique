@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../controllers/search_book_controller.dart';
-import '../../widgets/home/book_list.dart';
-import '../widgets/empty_state_search.dart';
+import '../../../controllers/search_book_controller.dart';
+import '../../../widgets/home/book_list.dart';
+import '../../widgets/empty_state_search.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -26,7 +26,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Iconsax.arrow_left, color: Colors.black),

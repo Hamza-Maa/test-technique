@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../controllers/bookmarks_controller.dart';
-import '../../widgets/bookDetails/bookMarks_book_list.dart';
+import '../controllers/bookmarks_controller.dart';
+import '../widgets/bookDetails/bookMarks_book_list.dart';
 
 class BookmarksScreen extends StatelessWidget {
   const BookmarksScreen({super.key});
@@ -12,6 +12,7 @@ class BookmarksScreen extends StatelessWidget {
     final BookmarksController _bookmarksController = Get.find();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Obx(() {
         if (_bookmarksController.favoriteBooks.isEmpty) {
           return const Center(

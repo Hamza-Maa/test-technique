@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
+import '../../utils/colors.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
   final int currentIndex;
@@ -65,18 +66,18 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
               height: 4,
               margin: const EdgeInsets.only(bottom: 4),
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
           Icon(
             icon,
-            color: isSelected ? Colors.green : Colors.black,
+            color: isSelected ? AppColors.primaryColor : Colors.black,
           ),
           Text(
             label,
             style: TextStyle(
-              color: isSelected ? Colors.green : Colors.black,
+              color: isSelected ? AppColors.primaryColor : Colors.black,
               fontSize: 12,
             ),
           ),

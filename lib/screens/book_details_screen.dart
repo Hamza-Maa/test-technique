@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../controllers/book_details_controller.dart';
-import '../../controllers/bookmarks_controller.dart';
-import '../../models/book_model.dart';
-import '../../widgets/base/custom_button.dart';
-import '../../widgets/base/custom_snackbar.dart';
-import '../../widgets/bookDetails/bookDetails_shimmer_loading.dart';
-import '../../widgets/bookDetails/book_details_error.dart';
+import '../controllers/book_details_controller.dart';
+import '../controllers/bookmarks_controller.dart';
+import '../models/book_model.dart';
+import '../utils/colors.dart';
+import '../widgets/base/custom_button.dart';
+import '../widgets/base/custom_snackbar.dart';
+import '../widgets/bookDetails/bookDetails_shimmer_loading.dart';
+import '../widgets/bookDetails/book_details_error.dart';
 import 'package:http/http.dart' as http;
 
 class BookDetailsScreen extends StatelessWidget {
@@ -24,6 +25,7 @@ class BookDetailsScreen extends StatelessWidget {
     _bookDetailsController.fetchBookDetails(bookId);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Obx(() {
         if (_bookDetailsController.isLoading.value) {
           return const BookDeatilsShimmerLoading();
@@ -99,7 +101,7 @@ class BookDetailsScreen extends StatelessWidget {
                       child: Text(
                         book.authors,
                         style: const TextStyle(
-                          color: Colors.green,
+                          color: AppColors.primaryColor,
                           fontSize: 16,
                         ),
                         overflow: TextOverflow.ellipsis,
