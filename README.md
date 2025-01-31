@@ -1,16 +1,19 @@
-# app
+# DEV
 
-A new Flutter project.
+## Description:
+This Flutter app lets users browse books, search by title, view details, and add books to favorites. It features authentication, and splash screen.
 
-## Getting Started
+## Features:
+- **Persistent Authentication**: User remains logged in across app sessions.
+- **Splash Screen**: Displayed upon app startup.
+- **Login Screen**: Simulated login screen with a delay.
+- **Connection Check**: Redirects to the home screen or login screen based on authentication status.
+- **Home Screen**: A main screen.
+- **Book List**: Displays a list of books retrieved from an API.
+- **Double List View**: Horizontal and vertical lists displaying books.
+- **Book Details**: Detailed view of books with an option to add to favorites.
+- **Favorites List**: A screen to view all favorited books with navigation to their details and an option to remove from favorites.
+- **Search Functionality**: Allows users to search for books by typing the book's title.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
