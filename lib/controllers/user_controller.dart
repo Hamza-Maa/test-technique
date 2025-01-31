@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
+import '../widgets/base/custom_snackbar.dart';
 
 class UserController extends GetxController {
   var user = User(id: '', name: '', email: '').obs;
@@ -22,7 +23,7 @@ class UserController extends GetxController {
     _prefs = await SharedPreferences.getInstance();
     _checkIfLoggedIn();
   }
-
+  //check if user logged in method
   void _checkIfLoggedIn() {
     final token = _prefs.getString('token');
     if (token != null) {
@@ -35,40 +36,39 @@ class UserController extends GetxController {
       Get.offNamed('/home');
     }
   }
-
-  // Login method
+  //login method
   Future<void> login(String email, String password) async {
     try {
       isLoading(true);
       await Future.delayed(const Duration(seconds: 3));
-      final token = _generateRandomToken();
-      final loggedInUser = User(
-        id: '1',
-        name: 'User',
-        email: email,
-        token: token,
-      );
 
-      await _prefs.setString('id', loggedInUser.id);
-      await _prefs.setString('name', loggedInUser.name);
-      await _prefs.setString('email', loggedInUser.email);
-      await _prefs.setString('token', loggedInUser.token!);
+      if (email == 'test@gmail.com' && password == 'password') {
+        final token = _generateRandomToken();
+        final loggedInUser = User(
+          id: '1',
+          name: 'User',
+          email: email,
+          token: token,
+        );
 
-      user.value = loggedInUser;
-      isLoading(false);
+        await _prefs.setString('id', loggedInUser.id);
+        await _prefs.setString('name', loggedInUser.name);
+        await _prefs.setString('email', loggedInUser.email);
+        await _prefs.setString('token', loggedInUser.token!);
 
-      Get.snackbar('Success', 'Logged in successfully!');
-      Get.offNamed('/home');
+        user.value = loggedInUser;
+        isLoading(false);
+
+        showSuccessSnackbar("Logged in successfully!");
+        Get.offNamed('/home');
+      } else {
+        isLoading(false);
+        showErrorSnackbar("Invalid email or password. Please try again.");
+      }
     } catch (e) {
       isLoading(false);
-      Get.snackbar('Error', 'Failed to login: $e');
+      showErrorSnackbar("Failed to login, Please try again");
     }
-  }
-
-  Future<void> logout() async {
-    await _prefs.clear();
-    user.value = User(id: '', name: '', email: '');
-    Get.offNamed('/login');
   }
 
   String _generateRandomToken() {

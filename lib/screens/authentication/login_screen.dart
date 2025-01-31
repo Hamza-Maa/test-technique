@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/user_controller.dart';
+import '../../utils/colors.dart';
 import '../../widgets/base/custom_button.dart';
 import '../../widgets/base/custom_snackbar.dart';
 import '../../widgets/base/custom_textfield.dart';
@@ -28,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       return Stack(
         children: [
           Scaffold(
-            backgroundColor: theme.scaffoldBackgroundColor,
+            backgroundColor: Colors.white,
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
@@ -42,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           children: [
                             Image.asset(
-                              'assets/img/logov1.png',
+                              'assets/img/normal_logo.png',
                               height: 100,
-                              color: Colors.green,
+                              color: AppColors.secondaryColor,
                             ),
                             const SizedBox(height: 80),
                           ],
@@ -55,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 27,
-                          color: Color(0xFF94B60B),
+                          color: AppColors.primaryColor,
                         ),
                       ),
                       const SizedBox(height: 24),

@@ -2,8 +2,8 @@
 class Assets {
   Assets._();
 
-  static const String imgBackgroundGradient = 'assets/img/background_gradient.png';
-  static const String imgLogov1 = 'assets/img/logov1.png';
-  static const String imgZz = 'assets/img/zz.png';
+  static const String imgDevLogoApp = 'assets/img/Dev_logo_app.png';
+  static const String imgNormalLogo = 'assets/img/normal_logo.png';
+  static const String imgSplashScreenIcon = 'assets/img/splashScreen_icon.png';
 
 }

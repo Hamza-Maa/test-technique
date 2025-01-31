@@ -1,12 +1,11 @@
 flutter_native_splash:
   background_image: "assets/img/background_gradient.png"
-  image: "assets/img/zz.png"
+  image: "assets/img/splashScreen_icon.png"
   android_gravity: center
   ios_content_mode: center
-  web_image_mode: center
+
   android_12:
-    image: "assets/img/zz.png"
-    color: "#398324"
-    icon_background_color: "#398324"
+    image: "assets/img/splashScreen_icon.png"
+    color: "#4A9E2C"
 
   web: false
