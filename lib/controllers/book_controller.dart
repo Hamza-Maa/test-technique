@@ -19,6 +19,7 @@ class BookController extends GetxController {
     super.onInit();
   }
 
+  //load books from cache in offline mode
   Future<void> loadCachedBooks() async {
     final prefs = await SharedPreferences.getInstance();
     final String? cachedBooksJson = prefs.getString('cachedBooks');
@@ -39,6 +40,7 @@ class BookController extends GetxController {
     await prefs.setString('cachedBooks', cachedBooksJson);
   }
 
+  //fetch books method
   Future<void> fetchBooks() async {
     try {
       isLoading(true);
@@ -53,6 +55,7 @@ class BookController extends GetxController {
     }
   }
 
+  //filter books by name method
   void sortBooksByTitle() {
     final sortedBooks = List<Book>.from(books);
     if (isAscendingOrder.value) {

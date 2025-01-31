@@ -13,6 +13,7 @@ class BookmarksController extends GetxController {
     loadFavoriteBooks();
   }
 
+  // load favorite books in offline mode
   Future<void> loadFavoriteBooks() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String>? favoriteBooksJson =
@@ -52,6 +53,7 @@ class BookmarksController extends GetxController {
     return favoriteBooks.contains(book);
   }
 
+  //filter books that are bookmarked
   void sortFavoriteBooksByTitle() {
     final sortedBooks = List<Book>.from(favoriteBooks);
     if (isAscendingOrder.value) {
