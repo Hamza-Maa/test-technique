@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                               icon: const Icon(Icons.search,
                                   color: AppColors.primaryColor, size: 28),
                               onPressed: () {
-                                Get.to(() => const SearchScreen());
+                                Get.toNamed('/search');
                               },
                             ),
                           ],
@@ -96,15 +96,16 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           children: [
             Image.asset(
-              'assets/img/logov1.png',
+              'assets/img/normal_logo.png',
               height: 40,
-              color: Colors.green,
+              color: AppColors.secondaryColor,
             ),
           ],
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list, color: Colors.green, size: 28),
+            icon: const Icon(Icons.filter_list,
+                color: AppColors.primaryColor, size: 28),
             onPressed: () {
               if (_selectedIndex == 0) {
                 _bookController.sortBooksByTitle();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/bookmarks_controller.dart';
 import '../../models/book_model.dart';
+import '../../routes.dart';
 import '../../screens/book_details_screen.dart';
 import '../../utils/utils.dart';
 
@@ -20,7 +21,7 @@ class BookItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         String sanitizedBookId = sanitizeBookId(book.id);
-        Get.to(() => BookDetailsScreen(bookId: sanitizedBookId));
+        Get.toNamed(Routes.bookDetails, arguments: {'bookId': sanitizedBookId});
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8.0),

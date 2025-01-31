@@ -23,7 +23,7 @@ class UserController extends GetxController {
     _prefs = await SharedPreferences.getInstance();
     _checkIfLoggedIn();
   }
-
+  //check if user logged in method
   void _checkIfLoggedIn() {
     final token = _prefs.getString('token');
     if (token != null) {
@@ -36,7 +36,7 @@ class UserController extends GetxController {
       Get.offNamed('/home');
     }
   }
-
+  //login method
   Future<void> login(String email, String password) async {
     try {
       isLoading(true);
@@ -69,12 +69,6 @@ class UserController extends GetxController {
       isLoading(false);
       showErrorSnackbar("Failed to login, Please try again");
     }
-  }
-
-  Future<void> logout() async {
-    await _prefs.clear();
-    user.value = User(id: '', name: '', email: '');
-    Get.offNamed('/login');
   }
 
   String _generateRandomToken() {

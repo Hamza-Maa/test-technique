@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/bookmarks_controller.dart';
 import '../../models/book_model.dart';
+import '../../routes.dart';
 import '../../screens/book_details_screen.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
@@ -18,7 +19,7 @@ class CarouselItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         String sanitizedBookId = sanitizeBookId(book.id);
-        Get.to(() => BookDetailsScreen(bookId: sanitizedBookId));
+        Get.toNamed(Routes.bookDetails, arguments: {'bookId': sanitizedBookId});
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

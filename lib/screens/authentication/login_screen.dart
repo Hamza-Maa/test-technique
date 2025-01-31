@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       return Stack(
         children: [
           Scaffold(
-            backgroundColor: theme.scaffoldBackgroundColor,
+            backgroundColor: Colors.white,
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
@@ -43,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           children: [
                             Image.asset(
-                              'assets/img/logov1.png',
+                              'assets/img/normal_logo.png',
                               height: 100,
-                              color: Colors.green,
+                              color: AppColors.secondaryColor,
                             ),
                             const SizedBox(height: 80),
                           ],
