@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StyledButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
 
   const StyledButton({
@@ -30,4 +30,3 @@ class StyledButton extends StatelessWidget {
     );
   }
 }
-

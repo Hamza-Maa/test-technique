@@ -21,30 +21,42 @@ class CustomBottomNavBar extends StatefulWidget {
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   @override
   Widget build(BuildContext context) {
-    return BottomBar(
-      width: MediaQuery.of(context).size.width * 0.7,
-      borderRadius: BorderRadius.circular(24),
-      barColor: Colors.white,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      showIcon: false,
-      body: (context, controller) => widget.body,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavBarItem(
-            icon: Icons.home_outlined,
-            label: "Accueil",
-            isSelected: widget.currentIndex == 0,
-            onTap: () => widget.onTap(0),
-          ),
-          _buildNavBarItem(
-            icon: Icons.bookmark_outline,
-            label: "Favoris",
-            isSelected: widget.currentIndex == 1,
-            onTap: () => widget.onTap(1),
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withOpacity(0.3),
+            spreadRadius: 0.5,
+            blurRadius: 8,
+            offset: Offset(0, -4),
           ),
         ],
+      ),
+      child: BottomBar(
+        width: MediaQuery.of(context).size.width * 0.55,
+        borderRadius: BorderRadius.circular(10),
+        barColor: AppColors.whiteColor,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        showIcon: false,
+        body: (context, controller) => widget.body,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavBarItem(
+              icon: Icons.home_outlined,
+              label: "Accueil",
+              isSelected: widget.currentIndex == 0,
+              onTap: () => widget.onTap(0),
+            ),
+            _buildNavBarItem(
+              icon: Icons.bookmark_outline,
+              label: "Favoris",
+              isSelected: widget.currentIndex == 1,
+              onTap: () => widget.onTap(1),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -63,16 +75,30 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
           if (isSelected)
             Container(
               width: 30,
-              height: 4,
+              height: 5,
               margin: const EdgeInsets.only(bottom: 4),
               decoration: BoxDecoration(
                 color: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-          Icon(
-            icon,
-            color: isSelected ? AppColors.primaryColor : Colors.black,
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: isSelected
+                  ? [
+                      BoxShadow(
+                        color: AppColors.primaryColor.withOpacity(0.2),
+                        spreadRadius: 0.1,
+                        blurRadius: 0.5,
+                      ),
+                    ]
+                  : [],
+            ),
+            child: Icon(
+              icon,
+              color: isSelected ? AppColors.primaryColor : Colors.black,
+            ),
           ),
           Text(
             label,

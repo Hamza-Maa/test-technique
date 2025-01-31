@@ -8,6 +8,11 @@ class BookDetailsController extends GetxController {
   final BookDetailsService _bookDetailsService = BookDetailsService();
   final Rx<BookDetails?> bookDetails = Rx<BookDetails?>(null);
   final RxBool isLoading = true.obs;
+  final RxBool isDownloading = false.obs;
+
+  void setDownloading(bool value) {
+    isDownloading.value = value;
+  }
 
   Future<void> loadCachedBookDetails(String bookId) async {
     final prefs = await SharedPreferences.getInstance();

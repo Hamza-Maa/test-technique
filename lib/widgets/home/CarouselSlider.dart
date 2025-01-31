@@ -10,13 +10,15 @@ class CarouselWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final limitedBooks = books.length > 3 ? books.sublist(0, 3) : books;
+
     return CarouselSlider(
       options: CarouselOptions(
         height: 200.0,
         autoPlay: true,
         enlargeCenterPage: true,
       ),
-      items: books.map((book) {
+      items: limitedBooks.map((book) {
         return CarouselItemWidget(book: book);
       }).toList(),
     );
